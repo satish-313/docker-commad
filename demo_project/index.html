@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>docker demo</title>
+    <script>
+      const editProfile = () => {
+        document.querySelector(".container").style.display = "none";
+        document.querySelector(".container-edit").style.display = "block";
+
+        const name = document.querySelector("#name").textContent;
+        document.querySelector("#input-name").value = name;
+
+        const email = document.querySelector("#email").textContent;
+        document.querySelector("#input-email").value = email;
+
+        const interests = document.querySelector("#interests").textContent;
+        document.querySelector("#input-interests").value = interests;
+      };
+
+      const saveProfile = () => {
+        let name = (document.querySelector("#name").textContent =
+          document.querySelector("#input-name").value);
+        let email = (document.querySelector("#email").textContent =
+          document.querySelector("#input-email").value);
+        let interests = (document.querySelector("#interests").textContent =
+          document.querySelector("#input-interests").value);
+        data = { name, email, interests };
+        console.log(data);
+        fetch("http://localhost:5000/update-profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log("data ", data))
+          .catch((err) => console.log("err", err));
+        document.querySelector(".container").style.display = "block";
+        document.querySelector(".container-edit").style.display = "none";
+      };
+      
+      let fetchInfo = () => {
+        console.log("connecting to database ")
+        fetch('http://localhost:5000/get-profile')
+        .then(res => res.json())
+        .then( data => {
+          let {email,interests,name} = data
+          document.querySelector("#name").textContent = name
+          document.querySelector("#email").textContent = email
+          document.querySelector("#interests").textContent = interests
+        })
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        fetchInfo()
+      })
+    </script>
+
+    <style>
+      .container-edit {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="header">User Profile</h1>
+      <img src="test.jpg" alt="bird" />
+      <br />
+      Name:
+      <h3 id="name"></h3>
+      <hr />
+      Email:
+      <h3 id="email"></h3>
+      <hr />
+      Interest:
+      <h3 id="interests"></h3>
+      <hr />
+      <button onclick="editProfile()" class="button">
+        Edit profile
+      </button>
+    </div>
+    <div class="container-edit">
+      <h1 id="header">Profile</h1>
+      <img src="test.jpg" alt="bird" />
+      <br />
+      Name: <input type="text" id="input-name" />
+      <hr />
+      Email: <input type="email" id="input-email" />
+      <hr />
+      Interest: <input type="text" id="input-interests" />
+      <hr />
+      <button class="button" onclick="saveProfile()">save profile</button>
+    </div>
+  </body>
+</html>
