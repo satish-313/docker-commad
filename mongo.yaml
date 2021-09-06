@@ -7,7 +7,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
-  
+    volumes:
+        - mongo-data:/data/db
   mongo-express:
     image: mongo-express:1.0.0-alpha.4
     ports:
@@ -25,5 +26,7 @@ services:
     ports:
       - 5000:5000
 
-
+volumes:
+  mongo-data:
+    driver: local
       

@@ -16,10 +16,10 @@ let mongoUrlDocker = "mongodb://admin:admin@mongodb"
 let mongoUrlLocal = "mongodb://admin:admin@localhost:27017";
 
 app.get('/get-profile', (req,res) => {
-  MongoClient.connect(mongoUrlDocker, (err,client) => {
+  MongoClient.connect(mongoUrlLocal, (err,client) => {
     if (err) throw err;
 
-    let db = client.db('user-account');
+    let db = client.db('db-user');
     let query = { userid : 1}
     db.collection('users').findOne(query, function(err,result) {
       if (err) throw err
@@ -33,10 +33,10 @@ app.post('/update-profile', (req,res) => {
   let userObj = req.body
   console.log('connecting to db')
 
-  MongoClient.connect(mongoUrlDocker, (err,client) => {
+  MongoClient.connect(mongoUrlLocal, (err,client) => {
     if (err) throw err;
 
-    let db = client.db('user-account');
+    let db = client.db('db-user');
     userObj['userid'] = 1
     let query = { userid : 1}
     let newValues = {$set:userObj}

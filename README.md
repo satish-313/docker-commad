@@ -210,3 +210,29 @@
     pulling your image
     $ docker pull <hub-user>/<repo-name>[:<tag>]
 
+15. Docker volume
+    docker volume used for data persitence in container when it restart or stopped
+    usually use in database or statefull application(redis)
+
+    how docker achieves the persitence in container. it attach or store the information on host computer like a directory.
+
+    thier is 3 way to define docker volume
+    1 - host volume - on which i have to explicitly tell this dir use for storing data and map to container host
+    $ docker run -v /local/data:/var/bin/data
+
+    2 - anonymous volume - on which we have don't specify where to store data docker will create and maintain it
+    $ docker -v /var/bin/data
+
+    3 - name volume - on which it is similar to anonymous type of we will name it
+    $ docker -v name:/var/bin/data
+
+    most name on is mostly used
+
+    to define volume in docker-compose file
+    we have use in server levle
+    version : "3"
+    serveris:
+			...
+		volumes:
+			mongo-data:
+				driver: local
