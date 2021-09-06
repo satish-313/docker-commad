@@ -51,6 +51,11 @@
           document.querySelector("#email").textContent = email
           document.querySelector("#interests").textContent = interests
         })
+        .catch(err => {
+          document.querySelector("#name").textContent = "satish"
+          document.querySelector("#email").textContent = "satish@gmail.com"
+          document.querySelector("#interests").textContent = "coding"
+        })
       }
 
       document.addEventListener('DOMContentLoaded', function(){

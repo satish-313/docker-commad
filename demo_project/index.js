@@ -2,7 +2,6 @@ const express = require("express")
 const path = require("path")
 const fs = require("fs")
 const MongoClient = require('mongodb').MongoClient
-const { response } = require("express")
 
 const app = express()
 app.use(express.static(__dirname + '/'));
@@ -13,8 +12,11 @@ app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname,"index.html"))
 })
 
+let mongoUrlDocker = "mongodb://admin:admin@mongodb"
+let mongoUrlLocal = "mongodb://admin:admin@localhost:27017";
+
 app.get('/get-profile', (req,res) => {
-  MongoClient.connect('mongodb://admin:admin@localhost:27017', (err,client) => {
+  MongoClient.connect(mongoUrlDocker, (err,client) => {
     if (err) throw err;
 
     let db = client.db('user-account');
@@ -31,7 +33,7 @@ app.post('/update-profile', (req,res) => {
   let userObj = req.body
   console.log('connecting to db')
 
-  MongoClient.connect('mongodb://admin:admin@localhost:27017', (err,client) => {
+  MongoClient.connect(mongoUrlDocker, (err,client) => {
     if (err) throw err;
 
     let db = client.db('user-account');
